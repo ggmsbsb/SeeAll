@@ -1,12 +1,20 @@
 import tkinter as tk
 from PIL import ImageGrab
-import webcolors
+import csv
 
-def get_color_name(rgb):
-    try:
-        return webcolors.rgb_to_name(rgb)
-    except ValueError:
-        return "Unknown"
+# Carrega o dataset CSV
+color_names = {}
+with open('dados.csv', mode='r') as infile:
+    reader = csv.reader(infile)
+    next(reader)  # Pula o cabeçalho
+    for rows in reader:
+        hex_code = rows[0].strip().lower()
+        name = rows[1].strip()
+        color_names[hex_code] = name
+
+def get_color_name_from_csv(hex_color):
+    hex_color = hex_color.lstrip('#').lower()
+    return color_names.get(hex_color, "Unknown")
 
 def get_color_info(x, y):
     try:
@@ -14,7 +22,7 @@ def get_color_info(x, y):
         image = ImageGrab.grab(bbox)
         rgb = image.getpixel((0, 0))
         hex_color = '#%02x%02x%02x' % rgb
-        color_name = get_color_name(rgb)
+        color_name = get_color_name_from_csv(hex_color)
         return color_name, hex_color, rgb
     except Exception:
         return "Error", "#000000", (0, 0, 0)
