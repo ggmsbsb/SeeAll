@@ -14,7 +14,7 @@ with open('dados.csv', mode='r') as infile:
 
 def get_color_name_from_csv(hex_color):
     hex_color = hex_color.lstrip('#').lower()
-    return color_names.get(hex_color, "Unknown")
+    return color_names.get(hex_color, "Nome não encontrado")
 
 def get_color_info(x, y):
     try:
@@ -31,12 +31,22 @@ def update_label():
     x, y = root.winfo_pointerx(), root.winfo_pointery()
     color_name, hex_color, rgb = get_color_info(x, y)
 
-    # Atualiza o texto da label sem fundo
+    # Calcula a luminosidade da cor de fundo
+    luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]
+    
+    # Usa fundo preto com opacidade baixa, mantendo o texto branco
+    text_color = "white"  # Cor do texto sempre branca para boa legibilidade
+    bg_color = "black"  # Fundo preto
+
+    # Atualiza o texto da label com fundo preto semi-transparente
     label.config(
-        text=f"{color_name}\n{hex_color}\n{rgb}",
-        fg="black" if sum(rgb) > 382 else "white",  # Alterna entre preto e branco para melhor visibilidade
-        bg="black"  # Mesma cor do transparentcolor para remover fundo
+        text=f"{color_name}\nHEX: {hex_color}\nRGB: {rgb}",
+        fg=text_color,  # Cor de texto branca
+        bg=bg_color,  # Fundo preto
     )
+
+    # Ajusta a opacidade do fundo da tooltip para dar um efeito semi-transparente
+    tooltip.attributes('-alpha', )  # Altera a opacidade para 70% de transparência
 
     tooltip.geometry(f"+{x+15}+{y+15}")  # Move a tooltip sem definir tamanho fixo
     tooltip.after(100, update_label)
