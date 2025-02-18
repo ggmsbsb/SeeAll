@@ -42,8 +42,8 @@ def update_label():
         fixed_color_name, fixed_hex_color, fixed_rgb = get_color_info(x, y)
     
     contrast = calculate_contrast(fixed_rgb)
-    text_color = "white"  # Mantém o texto branco para boa visibilidade
-    bg_color = "black"
+    text_color = "white"  # Cor do texto
+    bg_color = "black" #Cor de fundo
     
     label.config(
         text=f"{fixed_color_name}\nHEX: {fixed_hex_color}\nRGB: {fixed_rgb}\nContraste: {contrast}",
@@ -77,7 +77,6 @@ fixed = False
 fixed_color_name = ""
 fixed_hex_color = "#000000"
 fixed_rgb = (0, 0, 0)
-
 
 update_label()
 tooltip.mainloop()
