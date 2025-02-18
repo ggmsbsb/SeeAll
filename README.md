@@ -4,6 +4,8 @@ Este projeto utiliza o Python com a biblioteca Tkinter para criar uma ferramenta
 
 Ideal para quem trabalha com Design ou que tenha alguma limitação que o impessa de ver cores corretamente
 
+A ferramenta funciona também em jogos e apps, desde que estejam em modo JANELA SEM BORDAS OU JANELA. Caso esteja em TELA CHEIA é bem provavel que a ferramenta não funcione.
+
 ## Requisitos
 
 - Python 3.x
@@ -72,7 +74,7 @@ Este é um projeto simples, mas útil para quem deseja identificar e trabalhar c
 
 O arquivo readme.md foi gerado INTEGRALMENTE pelo ChatGPT com pequenas modificações feitas por mim.
 
-## ME AJUDE
+## ERROS E PROBLEMAS
 
 Você pode experienciar alguns erros, majoritariamente causados por diferenças de resolução, escala e taxa de atualização da tela.
 
