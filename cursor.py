@@ -25,7 +25,7 @@ def get_color_info(x, y):
         color_name = get_color_name_from_csv(hex_color)
         return color_name, hex_color, rgb
     except Exception as e:
-        print(f"Error at {x}, {y}: {e}")  # Melhorado para depuração
+        print(f"Error at {x}, {y}: {e}")  # Melhoria no log de erros
         return "Error", "#000000", (0, 0, 0)
 
 def calculate_contrast(rgb):
@@ -42,11 +42,8 @@ def update_label():
         fixed_color_name, fixed_hex_color, fixed_rgb = get_color_info(x, y)
     
     contrast = calculate_contrast(fixed_rgb)
-    
-    # Definir cor do texto com base no contraste
-    lum = sum(fixed_rgb) / 3
-    text_color = "black" if lum > 128 else "white"
-    bg_color = fixed_hex_color  # Cor de fundo dinâmica
+    text_color = "white"  # Cor do texto
+    bg_color = "black"    # Cor de fundo
     
     label.config(
         text=f"{fixed_color_name}\nHEX: {fixed_hex_color}\nRGB: {fixed_rgb}\nContraste: {contrast}",
