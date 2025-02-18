@@ -51,7 +51,7 @@ def update_label():
         bg=bg_color
     )
     tooltip.geometry(f"+{x+15}+{y+15}")
-    tooltip.after(100, update_label)
+    tooltip.after(1, update_label)
 
 # Ajuste de escala
 root = tk.Tk()
