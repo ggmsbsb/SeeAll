@@ -46,7 +46,7 @@ def update_label():
     )
 
     # Ajusta a opacidade do fundo da tooltip para dar um efeito semi-transparente
-    tooltip.attributes('-alpha', )  # Altera a opacidade para 70% de transparência
+    tooltip.attributes('-alpha', 1)  #Opacidade
 
     tooltip.geometry(f"+{x+15}+{y+15}")  # Move a tooltip sem definir tamanho fixo
     tooltip.after(100, update_label)
