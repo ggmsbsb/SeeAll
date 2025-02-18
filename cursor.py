@@ -27,48 +27,57 @@ def get_color_info(x, y):
     except Exception:
         return "Error", "#000000", (0, 0, 0)
 
+def calculate_contrast(rgb):
+    # Calcula a luminância relativa
+    r, g, b = [c / 255.0 for c in rgb]
+    lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    contrast = "Alto" if lum < 0.5 else "Baixo"
+    return contrast
+
 def update_label():
-    x, y = root.winfo_pointerx(), root.winfo_pointery()
-    color_name, hex_color, rgb = get_color_info(x, y)
-
-    # Calcula a luminosidade da cor de fundo
-    luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]
+    global fixed, fixed_color_name, fixed_hex_color, fixed_rgb
     
-    # Usa fundo preto com opacidade baixa, mantendo o texto branco
-    text_color = "white"  # Cor do texto sempre branca para boa legibilidade
-    bg_color = "black"  # Fundo preto
-
-    # Atualiza o texto da label com fundo preto semi-transparente
+    if not fixed:
+        x, y = root.winfo_pointerx(), root.winfo_pointery()
+        fixed_color_name, fixed_hex_color, fixed_rgb = get_color_info(x, y)
+    
+    contrast = calculate_contrast(fixed_rgb)
+    text_color = "white"  # Mantém o texto branco para boa visibilidade
+    bg_color = "black"
+    
     label.config(
-        text=f"{color_name}\nHEX: {hex_color}\nRGB: {rgb}",
-        fg=text_color,  # Cor de texto branca
-        bg=bg_color,  # Fundo preto
+        text=f"{fixed_color_name}\nHEX: {fixed_hex_color}\nRGB: {fixed_rgb}\nContraste: {contrast}",
+        fg=text_color,
+        bg=bg_color
     )
-
-    # Ajusta a opacidade do fundo da tooltip para dar um efeito semi-transparente
-    tooltip.attributes('-alpha', 1)  #Opacidade
-
-    tooltip.geometry(f"+{x+15}+{y+15}")  # Move a tooltip sem definir tamanho fixo
+    tooltip.geometry(f"+{x+15}+{y+15}")
     tooltip.after(100, update_label)
 
-# Ajusta a captura de tela para monitores com escala diferente de 100%
+# Ajuste de escala
 root = tk.Tk()
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 image_width, image_height = ImageGrab.grab().size
-screen_scale = image_width / screen_width  # Ajusta captura para monitores com escala diferente de 100%
+screen_scale = image_width / screen_width
 
-root.withdraw()  # Oculta a janela principal
+root.withdraw()
 
 # Cria uma tooltip transparente
 tooltip = tk.Toplevel(root)
 tooltip.overrideredirect(True)
 tooltip.attributes('-topmost', True)
-tooltip.attributes('-transparentcolor', 'black')  # Faz o fundo do texto desaparecer
+tooltip.attributes('-transparentcolor', 'black')
 
 # Cria uma label sem fundo
-label = tk.Label(tooltip, font=("Helvetica", 10), justify="left", padx=2, pady=1, bg="black")  # Cor igual ao transparentcolor
+label = tk.Label(tooltip, font=("Helvetica", 10), justify="left", padx=2, pady=1, bg="black")
 label.pack()
+
+# Variáveis globais
+fixed = False
+fixed_color_name = ""
+fixed_hex_color = "#000000"
+fixed_rgb = (0, 0, 0)
+
 
 update_label()
 tooltip.mainloop()
