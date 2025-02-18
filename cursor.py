@@ -24,11 +24,11 @@ def get_color_info(x, y):
         hex_color = '#%02x%02x%02x' % rgb
         color_name = get_color_name_from_csv(hex_color)
         return color_name, hex_color, rgb
-    except Exception:
+    except Exception as e:
+        print(f"Error at {x}, {y}: {e}")  # Melhoria no log de erros
         return "Error", "#000000", (0, 0, 0)
 
 def calculate_contrast(rgb):
-    # Calcula a luminância relativa
     r, g, b = [c / 255.0 for c in rgb]
     lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
     contrast = "Alto" if lum < 0.5 else "Baixo"
@@ -43,13 +43,14 @@ def update_label():
     
     contrast = calculate_contrast(fixed_rgb)
     text_color = "white"  # Cor do texto
-    bg_color = "black" #Cor de fundo
+    bg_color = "black"    # Cor de fundo
     
     label.config(
         text=f"{fixed_color_name}\nHEX: {fixed_hex_color}\nRGB: {fixed_rgb}\nContraste: {contrast}",
         fg=text_color,
         bg=bg_color
     )
+    
     tooltip.geometry(f"+{x+15}+{y+15}")
     tooltip.after(1, update_label)
 
